@@ -1,22 +1,35 @@
-function FollowToggle (el) {
-    this.$el = $(`${el}`);
-    this.userId = this.$el.data("user-id");
-    this.followState = this.$el.data("initial-follow-state");
+const ApiUtil = require("./apiUtil");
+
+function FollowToggle(el) {
+  this.$el = $(el);
+  this.userId = this.$el.data("user-id");
+  this.followState = this.$el.data("initial-follow-state");
+  this.render();
+  this.$el.on("click", this.handleClick.bind(this));
+}
+
+FollowToggle.prototype.render = function () {
+  if (this.followState === "unfollowed") this.$el.html("Follow!");
+  if (this.followState === "followed") this.$el.html("Unfollow!");
+};
+
+FollowToggle.prototype.handleClick = function (e) {
+  let followToggle = this;
+  e.preventDefault();
+  console.log(this.userId);
+  if (this.followState === "unfollowed") {
     this.render();
-}
-
-FollowToggle.prototype.render = function() {
-    if (this.followState === "unfollowed") this.$el.text("Follow!");
-    if (this.followState === "followed") this.$el.text("Unfollow!");
-}
-
-FollowToggle.prototype.handleClick = () => {
-    this.$el.on("click", e => {
-        e.preventDefault();
-        $.ajax({
-            method: "POST",
-            url: "/users/:user_id/follow",
-        })
-    })
-}
+    ApiUtil.followUser(this.userId).then(function () {
+      followToggle.followState = "followed";
+      followToggle.render();
+    });
+  } else {
+    this.render();
+    ApiUtil.unfollowUser(this.userId).then(function () {
+      followToggle.followState = "unfollowed";
+      followToggle.render();
+    });
+  }
+  //   this.render();
+};
 module.exports = FollowToggle;
