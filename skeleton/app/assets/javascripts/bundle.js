@@ -1,0 +1,2 @@
+(()=>{var o={591:o=>{o.exports=function(o){console.log("this works"),this.$el=$(`${o}`),this.userId=this.$el.data("user-id"),this.followState=this.$el.data("initial-follow-state"),console.log("end of followtoggle")}},542:function(o,t,s){const e=s(591);$((()=>{console.log("this works 3"),$(".follow-toggle").each((o=>{console.log("thisworks2"),new e(this[o])}))}))}},t={};!function s(e){if(t[e])return t[e].exports;var l=t[e]={exports:{}};return o[e].call(l.exports,l,l.exports,s),l.exports}(542)})();
+//# sourceMappingURL=bundle.js.map
